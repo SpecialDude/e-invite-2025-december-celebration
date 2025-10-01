@@ -671,6 +671,32 @@
                 font-size: 14px;
             }
         }
+
+        /* Custom Scrollbar for Letter */
+        .letter::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .letter::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .letter::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+
+        .letter::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Firefox scrollbar */
+        .letter {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+        }
+
+
         /* Hidden class */
         .hidden {
             display: none !important;
