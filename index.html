@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellspring Celebration of Friendship 2025</title>
+    <meta name="description" content="You're invited to our Christmas celebration!">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    
+    <style>
+        :root {
+            --green-primary: #2F8F6E;
+            --green-soft: #7FC6A4;
+            --gold: #D4AF37;
+            --gold-soft: #E8D4A0;
+            --bg-cream: #FBFBF8;
+            --bg-gray: #E8E8E6;
+            --text-dark: #2C3E3C;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, var(--bg-gray) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Page Container */
+        .page-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--green-primary);
+        }
+
+        /* Invitation Page Styles */
+        .envelope-container {
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .envelope {
+            width: 600px;
+            height: 380px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .envelope-back, .envelope-front, .envelope-flap, .envelope-top {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .envelope-back {
+            background: var(--gold);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* .envelope-flap {
+            background: var(--gold-soft);
+            height: 50%;
+            transform-origin: top center;
+            border-radius: 8px 8px 0 0;
+            clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+            z-index: 3;
+        } */
+
+        .envelope-flap {
+            background: var(--gold-soft);
+            height: 50%;
+            transform-origin: top center;
+            border-radius: 8px 8px 0 0;
+            clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+            z-index: 1;
+            transition: z-index 0s 1s;
+        }
+
+        .envelope-flap.opened {
+            z-index: 1;
+        }
+
+        .envelope-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--green-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            /* z-index: 4; */
+            z-index: 2;
+        }
+
+        /* .letter {
+            position: absolute;
+            width: 360px;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            z-index: 2;
+        } */
+
+        .letter {
+            position: absolute;
+            width: 500px;
+            max-width: 90vw;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            z-index: 10;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .letter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--green-primary);
+            margin-bottom: 10px;
+        }
+
+        .letter-subtitle {
+            color: var(--gold);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .letter-content {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .letter-content p {
+            margin-bottom: 15px;
+        }
+
+        .event-details {
+            background: var(--bg-cream);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--gold);
+        }
+
+        .event-details h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--green-primary);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .event-details p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* RSVP Form */
+        .rsvp-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--bg-gray);
+        }
+
+        .rsvp-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--green-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--bg-gray);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--green-primary);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label {
+            display: block;
+            padding: 15px;
+            border: 2px solid var(--bg-gray);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-label {
+            background: var(--green-primary);
+            border-color: var(--green-primary);
+            color: white;
+        }
+
+        #decline:checked + .radio-label {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .radio-option input[type="radio"]:focus + .radio-label {
+            outline: 2px solid var(--green-soft);
+            outline-offset: 2px;
+        }
+
+        .radio-label:hover {
+            border-color: var(--green-soft);
+        }
+
+        .submit-btn, .secondary-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn {
+            background: var(--green-primary);
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--green-soft);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .secondary-btn:hover {
+            background: var(--gold);
+            color: white;
+        }
+
+        .success-message, .error-message {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Guest List Page */
+        .guest-list-container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .guest-list-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .guest-list-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--green-primary);
+            margin-bottom: 10px;
+        }
+
+        .last-updated {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card.pending {
+            background: #fff9e6;
+            border: 2px solid var(--gold);
+        }
+
+        .stat-card.accepted {
+            background: #e6f7f1;
+            border: 2px solid var(--green-primary);
+        }
+
+        .stat-card.declined {
+            background: #f0f0f0;
+            border: 2px solid #999;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .guest-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .guest-table th {
+            background: var(--green-primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .guest-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--bg-gray);
+        }
+
+        .guest-table tr:hover {
+            background: var(--bg-cream);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.pending {
+            background: var(--gold-soft);
+            color: #8B6F1F;
+        }
+
+        .status-badge.accepted {
+            background: var(--green-soft);
+            color: #1B5E46;
+        }
+
+        .status-badge.declined {
+            background: #ddd;
+            color: #666;
+        }
+
+        .notes-cell {
+            max-width: 300px;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--green-primary);
+        }
+
+        .spinner {
+            border: 3px solid var(--bg-gray);
+            border-top: 3px solid var(--green-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        /* @media (max-width: 768px) {
+            .envelope {
+                width: 320px;
+                height: 224px;
+            }
+
+            .letter {
+                width: 90%;
+                max-width: 340px;
+                padding: 30px 20px;
+            }
+
+            .letter-title {
+                font-size: 26px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .guest-list-container {
+                padding: 20px;
+            }
+
+            .guest-table {
+                font-size: 14px;
+            }
+
+            .guest-table th,
+            .guest-table td {
+                padding: 10px;
+            }
+
+            .stats-container {
+                flex-direction: column;
+            }
+        } */
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .envelope {
+                width: 320px;
+                height: 224px;
+            }
+
+            .letter {
+                width: 90%;
+                max-width: 340px;
+                padding: 25px 20px;
+                max-height: 80vh;
+            }
+
+            .letter-title {
+                font-size: 24px;
+            }
+            
+            .letter-subtitle {
+                font-size: 12px;
+            }
+            
+            .letter-content {
+                font-size: 14px;
+            }
+            
+            .event-details {
+                padding: 15px;
+            }
+            
+            .event-details h3 {
+                font-size: 16px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .guest-list-container {
+                padding: 20px;
+            }
+
+            .guest-table {
+                font-size: 12px;
+            }
+
+            .guest-table th,
+            .guest-table td {
+                padding: 8px;
+            }
+
+            .stats-container {
+                flex-direction: column;
+            }
+            
+            .music-control {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .music-control svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .envelope {
+                width: 280px;
+                height: 196px;
+            }
+            
+            .letter {
+                padding: 20px 15px;
+            }
+            
+            .letter-title {
+                font-size: 22px;
+            }
+            
+            .rsvp-title {
+                font-size: 20px;
+            }
+            
+            .submit-btn, .secondary-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl" title="Play music" role="button" tabindex="0" aria-label="Toggle music">
+        <svg id="playIcon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24">
+            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+        </svg>
+    </div>
+
+    <!-- Invitation Page -->
+    <div class="page-container" id="invitationPage">
+        <div class="envelope-container">
+            <div class="envelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-flap">
+                    <div class="envelope-seal">W</div>
+                </div>
+                <div class="letter" id="letter">
+                    <div class="letter-header">
+                        <h1 class="letter-title">You're Invited!</h1>
+                        <p class="letter-subtitle">Wellspring Celebration</p>
+                        <p style="font-size: 0.6rem; margin-top: 0; text-align: center; color: #9a7d0a;"><em>A joyful gathering to honour our journey together</em></p>
+                    </div>
+                    
+                    <div class="letter-content">
+                        <!-- <p>Dear Friend,</p>
+                        <p>We're thrilled to invite you to our annual Wellspring Celebration of Friendship! Join us for an evening of joy, laughter, and cherished memories as we gather to celebrate the bonds that make life beautiful.</p>
+                        
+                        <div class="event-details">
+                            <h3>Event Details</h3>
+                            <p><strong>Date:</strong> December 20, 2025</p>
+                            <p><strong>Time:</strong> 6:00 PM - 10:00 PM</p>
+                            <p><strong>Venue:</strong> The Garden Hall, Lagos</p>
+                            <p><strong>Dress Code:</strong> Smart Casual</p>
+                        </div>
+                        
+                        <p>We'll have delicious food, wonderful music, and plenty of opportunities to catch up with old friends and make new ones. Your presence would truly make this celebration complete!</p> -->
+
+
+                        <div class="letter-wrapper">
+                            
+                            <p>Dear Friend,</p>
+                            
+                            <p>
+                                Life is moving quickly — new paths, careers, and adventures are opening before us. Yet in the midst of all this change, one truth remains: the joy of our friendship is a treasure worth pausing to celebrate.
+                            </p>
+                            
+                            <p>
+                                This December, we hope to gather for something truly special: the <strong>Wellspring Celebration of Friendship</strong>. Imagine an atmosphere filled with laughter, memories, encouragement, and the warmth of knowing we are connected by something deeper than time or distance.
+                            </p>
+                            
+                            <p>
+                                Our dream for this gathering is simple: to refresh our bond, celebrate how far we’ve come, and remind one another that no matter where life takes us, we will always be a source of joy, strength, and inspiration for each other.
+                            </p>
+                            
+                            <p>
+                                Before we set everything in motion, we would love to know if you’d be excited to join us. Your response will help us shape the celebration and make it as meaningful as possible. 
+                            </p>                           
+                           
+                        </div>
+
+                    </div>
+
+                    <div class="rsvp-section">
+                        <h2 class="rsvp-title">Please Confirm Your Attendance</h2>
+                        
+                        <form id="rsvpForm">
+
+                            <!-- Web3Forms Access Key -->
+                            <input type="hidden" name="access_key" id="accessKey" value="">
+                            
+                            <!-- Honeypot Spam Protection -->
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                            
+                            <!-- Custom subject for email -->
+                            <input type="hidden" name="subject" value="New RSVP - Wellspring Celebration 2025">
+
+                            <div class="form-group">
+                                <label class="form-label" for="guestName">Your Name *</label>
+                                <input type="text" id="guestName" name="name" class="form-input" required minlength="2" maxlength="80" placeholder="Enter your full name">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Will you be joining us? *</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="accept" name="status" value="ACCEPTED" required>
+                                        <label class="radio-label" for="accept">✓ Accept</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="decline" name="status" value="DECLINED" required>
+                                        <label class="radio-label" for="decline">✗ Decline</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="notes">Additional Notes (Optional)</label>
+                                <textarea id="notes" name="notes" class="form-input" maxlength="500" placeholder="Dietary restrictions, travel needs, special messages..."></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-btn" id="submitBtn">Confirm Interest</button>
+                        </form>
+
+                        <div id="successMessage" class="success-message hidden"></div>
+                        <div id="errorMessage" class="error-message hidden"></div>
+
+                        <button class="secondary-btn" onclick="showGuestList()">View Guest List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guest List Page -->
+    <div class="page-container hidden" id="guestListPage">
+        <div class="guest-list-container">
+            <div class="guest-list-header">
+                <h1 class="guest-list-title">Guest List</h1>
+                <p class="last-updated" id="lastUpdated">Loading...</p>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card accepted">
+                    <div class="stat-number" id="acceptedCount">0</div>
+                    <div class="stat-label">Accepted</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-number" id="pendingCount">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card declined">
+                    <div class="stat-number" id="declinedCount">0</div>
+                    <div class="stat-label">Declined</div>
+                </div>
+            </div>
+
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <p>Loading guest list...</p>
+            </div>
+
+            <table class="guest-table hidden" id="guestTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="guestTableBody">
+                </tbody>
+            </table>
+
+            <button class="secondary-btn" onclick="showInvitation()">Back to Invitation</button>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION ==========
+        const CONFIG = {
+            // Google Sheets Configuration
+            // Instructions: 
+            // 1. Go to your Google Sheet
+            // 2. File → Share → Publish to web
+            // 3. Select "Comma-separated values (.csv)"
+            // 4. Copy the URL and paste it below
+            googleSheetUrl: 'https://docs.google.com/spreadsheets/d/1SzOc_d35A6mTCGV0WgeKMqrv1RfaVYKNqJAlQJJ1DSM/export?format=csv&gid=0',
+            
+            // API Configuration (for form submission)
+            api: {
+                rsvpEndpoint: 'https://api.web3forms.com/submit',
+                // If you have a Google Apps Script Web App, put the URL here instead
+                googleAppsScriptUrl: '',
+                web3formsAccessKey: 'd1405fa5-0d74-468f-9651-2006544cb5f2', // Replace with your actual Web3Forms access key
+                web3formsEndpoint: 'https://api.web3forms.com/submit'
+            },
+            
+            // Audio Configuration
+            // audioUrl: 'https://www.bensound.com/bensound-music/bensound-jazzyfrenchy.mp3',
+            // audioUrl: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3',
+            audioUrl: 'https://www.bensound.com/bensound-music/bensound-inspire.mp3',
+            
+            // Site Configuration
+            siteTitle: 'Wellspring Celebration 2025'
+        };
+
+        // ========== MUSIC SETUP ==========
+        let sound = null;
+        let isPlaying = false;
+
+        function initMusic() {
+            sound = new Howl({
+                src: [CONFIG.audioUrl],
+                loop: true,
+                volume: 0.3,
+                html5: true,
+                autoplay: true,
+                onplay: function() {
+                    isPlaying = true;
+                    document.getElementById('playIcon').classList.add('hidden');
+                    document.getElementById('pauseIcon').classList.remove('hidden');
+                },
+                onpause: function() {
+                    isPlaying = false;
+                    document.getElementById('playIcon').classList.remove('hidden');
+                    document.getElementById('pauseIcon').classList.add('hidden');
+                }
+            });
+        }
+
+        function toggleMusic() {
+            if (!sound) initMusic();
+            
+            if (isPlaying) {
+                sound.pause();
+                document.getElementById('playIcon').classList.remove('hidden');
+                document.getElementById('pauseIcon').classList.add('hidden');
+            } else {
+                sound.play();
+                document.getElementById('playIcon').classList.add('hidden');
+                document.getElementById('pauseIcon').classList.remove('hidden');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        document.getElementById('musicControl').addEventListener('click', toggleMusic);
+        document.getElementById('musicControl').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMusic();
+            }
+        });
+
+        // ========== ENVELOPE ANIMATION ==========
+        function animateEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            const flap = document.querySelector('.envelope-flap');
+            const seal = document.querySelector('.envelope-seal');
+            const letter = document.getElementById('letter');
+
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (prefersReducedMotion) {
+                // Skip animations for users who prefer reduced motion
+                flap.style.transform = 'rotateX(-180deg)';
+                seal.style.opacity = '0';
+                letter.style.opacity = '1';
+                letter.style.transform = 'translate(-50%, -50%) scale(1)';
+                flap.classList.add('opened');
+                triggerConfetti();
+                return;
+            }
+
+            const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
+
+
+            tl.to(seal, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.5,
+                delay: 1
+            })
+            .to(flap, {
+                rotateX: -180,
+                duration: 1.2,
+                transformOrigin: 'top center',
+                onComplete: () => {
+                    flap.classList.add('opened');
+                }
+            })
+            .to(letter, {
+                y: -80,
+                opacity: 1,
+                duration: 1,
+                scale: 1.15
+            }, '-=0.3'
+            )
+            .to(letter, {
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                onComplete: triggerConfetti
+            });
+        }
+
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#2F8F6E', '#7FC6A4', '#D4AF37', '#E8D4A0']
+            });
+        }
+
+        // Start animation on page load
+        window.addEventListener('load', () => {
+            setTimeout(animateEnvelope, 500);
+        });
+
+        // ========== FORM HANDLING ==========
+        const form = document.getElementById('rsvpForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(form);
+            
+            // Add additional fields
+            formData.append('source', 'e-invite-web-v1');
+            formData.append('timestamp', new Date().toISOString());
+            
+            const guestName = document.getElementById('guestName').value.trim();
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            // Hide previous messages
+            successMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+
+            try {
+                const response = await fetch(CONFIG.api.web3formsEndpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    successMessage.textContent = `Thank you, ${guestName}! Your response has been recorded.`;
+                    successMessage.classList.remove('hidden');
+                    form.reset();
+                    
+                    // Trigger confetti on success
+                    confetti({
+                        particleCount: 50,
+                        spread: 60,
+                        origin: { y: 0.7 }
+                    });
+                } else {
+                    throw new Error(result.message || 'Submission failed');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                errorMessage.textContent = 'Unable to submit your response. Please try again or contact the organizer directly.';
+                errorMessage.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirm Interest';
+            }
+        });
+        // ========== GUEST LIST HANDLING ==========
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            const guests = [];
+            
+            // Skip header row (index 0)
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                // Simple CSV parsing (handles basic cases)
+                const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                
+                if (values.length >= 2) {
+                    guests.push({
+                        name: values[0] || 'Unknown',
+                        status: (values[1] || 'PENDING').toUpperCase(),
+                        notes: values[2] || ''
+                    });
+                }
+            }
+            
+            return guests;
+        }
+
+        async function loadGuestList() {
+            const loadingState = document.getElementById('loadingState');
+            const guestTable = document.getElementById('guestTable');
+            const guestTableBody = document.getElementById('guestTableBody');
+            const lastUpdated = document.getElementById('lastUpdated');
+
+            try {
+                // Fetch from Google Sheets CSV
+                const sheetUrl = CONFIG.googleSheetUrl;
+                
+                if (sheetUrl === 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') {
+                    throw new Error('Google Sheet URL not configured');
+                }
+
+                const response = await fetch(sheetUrl);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch guest list');
+                }
+
+                const csvText = await response.text();
+                const guests = parseCSV(csvText);
+
+                // Update stats
+                const stats = {
+                    accepted: guests.filter(g => g.status === 'ACCEPTED').length,
+                    pending: guests.filter(g => g.status === 'PENDING').length,
+                    declined: guests.filter(g => g.status === 'DECLINED').length
+                };
+
+                document.getElementById('acceptedCount').textContent = stats.accepted;
+                document.getElementById('pendingCount').textContent = stats.pending;
+                document.getElementById('declinedCount').textContent = stats.declined;
+
+                // Sort guests (Accepted first, then Pending, then Declined)
+                const sortOrder = { 'ACCEPTED': 1, 'PENDING': 2, 'DECLINED': 3 };
+                guests.sort((a, b) => sortOrder[a.status] - sortOrder[b.status]);
+
+                // Render guest table
+                guestTableBody.innerHTML = guests.map(guest => `
+                    <tr>
+                        <td><strong>${escapeHtml(guest.name)}</strong></td>
+                        <td><span class="status-badge ${guest.status.toLowerCase()}">${guest.status}</span></td>
+                        <td class="notes-cell">${escapeHtml(guest.notes)}</td>
+                    </tr>
+                `).join('');
+
+                // Update last updated time
+                lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
+
+                // Show table, hide loading
+                loadingState.classList.add('hidden');
+                guestTable.classList.remove('hidden');
+
+                // Trigger confetti on guest list page
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 30,
+                        spread: 50,
+                        origin: { y: 0.4 },
+                        colors: ['#2F8F6E', '#7FC6A4', '#D4AF37']
+                    });
+                }, 500);
+
+            } catch (error) {
+                console.error('Error loading guest list:', error);
+                loadingState.innerHTML = `
+                    <p style="color: #721c24;">Unable to load guest list. Please check your Google Sheets configuration.</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Error: ${error.message}</p>
+                `;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ========== PAGE NAVIGATION ==========
+        function showGuestList() {
+            document.getElementById('invitationPage').classList.add('hidden');
+            document.getElementById('guestListPage').classList.remove('hidden');
+            loadGuestList();
+        }
+
+        function showInvitation() {
+            document.getElementById('guestListPage').classList.add('hidden');
+            document.getElementById('invitationPage').classList.remove('hidden');
+        }
+
+        // ========== INITIALIZE ==========
+        document.getElementById('accessKey').value = CONFIG.api.web3formsAccessKey;
+        initMusic();
+    </script>
+</body>
+</html>
